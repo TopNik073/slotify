@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Вход через Google — Slotify</title>
+    <link rel="stylesheet" href="/assets/css/app.css" />
+  </head>
+  <body>
+    <div class="auth-shell auth-simple">
+      <div class="card">
+        <h2>Завершаем вход</h2>
+        <div class="message" id="message" hidden></div>
+        <p class="muted" id="status">Проверяем ответ Google…</p>
+        <p id="actions" hidden><a href="/login.html">Вернуться ко входу</a></p>
+      </div>
+    </div>
+
+    <script type="module">
+      import { session } from '/assets/js/api.js';
+      import { safeReturnPath, showMessage } from '/assets/js/ui.js';
+
+      const ERRORS = {
+        access_denied: 'Вы отклонили доступ в Google',
+        google_state_mismatch: 'Сессия входа истекла, попробуйте снова',
+        google_auth_failed: 'Google не подтвердил вход',
+        account_disabled: 'Этот аккаунт отключён администратором',
+        missing_code: 'Google не передал код авторизации',
+      };
+
+      // The backend puts tokens in the fragment on purpose: it never reaches the server, so
+      // they stay out of access logs and out of the Referer header.
+      const params = new URLSearchParams(window.location.hash.slice(1));
+      const error = params.get('error');
+      const accessToken = params.get('accessToken');
+      const refreshToken = params.get('refreshToken');
+      const next = safeReturnPath(params.get('next'));
+
+      if (accessToken && refreshToken) {
+        session.save(accessToken, refreshToken);
+        history.replaceState(null, '', window.location.pathname);
+        document.getElementById('status').textContent = 'Готово, открываем Slotify…';
+        window.location.replace(next);
+      } else {
+        document.getElementById('status').hidden = true;
+        document.getElementById('actions').hidden = false;
+        if (session.isAuthenticated) {
+          const link = document.querySelector('#actions a');
+          link.href = next;
+          link.textContent = 'Вернуться в приложение';
+        }
+        showMessage(document.getElementById('message'), ERRORS[error] || 'Не удалось войти через Google');
+      }
+    </script>
+  </body>
+</html>
