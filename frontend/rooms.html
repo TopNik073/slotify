@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f0f1e9" />
+    <title>Расписание — Slotify</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/css/app.css" />
+  </head>
+  <body>
+    <nav data-nav aria-label="Основная навигация"></nav>
+    <main>
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">МЕНЬШЕ ПОИСКОВ. БОЛЬШЕ ВСТРЕЧ.</p>
+          <h1>Соберёмся?</h1>
+          <p class="muted">Найдите место и время для следующей большой идеи.</p>
+        </div>
+      </header>
+      <div class="message" id="message" hidden></div>
+      <form class="card filter-bar" id="filters">
+        <div><label for="office">Где встречаемся</label><select id="office" required aria-label="Офис"><option value="">Загружаем офисы…</option></select></div>
+        <div><label for="day">Когда</label><input type="date" id="day" required /></div>
+        <div><label for="capacity">Сколько вас</label><input type="number" id="capacity" min="1" max="1000" placeholder="Любое число" /></div>
+        <button type="submit" class="secondary" id="reload">Обновить <span aria-hidden="true">↻</span></button>
+      </form>
+      <p class="office-caption" id="office-hint"></p>
+      <section aria-label="Выбор дня">
+        <div class="week-toolbar">
+          <h2 id="week-title">На этой неделе</h2>
+          <div class="week-controls">
+            <button type="button" class="secondary" id="today">Сегодня</button>
+            <button type="button" class="secondary icon-button" id="prev-week" aria-label="Предыдущая неделя">←</button>
+            <button type="button" class="secondary icon-button" id="next-week" aria-label="Следующая неделя">→</button>
+          </div>
+        </div>
+        <div class="week-strip" id="week" aria-label="Дни недели"></div>
+      </section>
+      <section class="card schedule" aria-labelledby="schedule-title" id="schedule">
+        <div class="section-heading">
+          <h2 id="schedule-title">Переговорные</h2>
+          <div class="legend" aria-label="Обозначения"><span><i></i>Свободно</span><span><i class="busy"></i>Занято</span><span><i class="mine"></i>Мои встречи</span><span><i class="chosen"></i>Выбор времени</span></div>
+        </div>
+        <div id="grid-state" aria-live="polite"></div>
+        <div class="grid-scroll" id="grid-scroll" tabindex="0" role="region" aria-label="Расписание комнат. Прокрутите, чтобы увидеть весь день">
+          <table id="grid"><caption class="sr-only">Доступность переговорных. Нажмите на свободное время для бронирования.</caption><thead></thead><tbody></tbody></table>
+        </div>
+        <p class="schedule-foot"><span id="grid-hint">Нажмите на название комнаты, чтобы узнать о ней, или выберите свободное время.</span><span id="timezone-label"></span></p>
+      </section>
+    </main>
+    <dialog class="drawer room-details" id="room-dialog" aria-labelledby="room-heading">
+      <div class="drawer-head"><div><p class="eyebrow">ЗНАКОМИМСЯ С ПРОСТРАНСТВОМ</p><h2 id="room-heading"></h2></div><button type="button" class="secondary icon-button" id="close-room" aria-label="Закрыть информацию о переговорной">✕</button></div>
+      <div class="drawer-body">
+        <div class="room-location"><span aria-hidden="true" id="room-location-icon"></span><strong>Как найти</strong><p id="room-address"></p><p id="room-floor"></p></div>
+        <dl class="room-facts"><dt>Офис</dt><dd id="room-office"></dd><dt>Вместимость</dt><dd id="room-capacity"></dd></dl>
+        <h3>Описание и ориентиры</h3><p class="room-description" id="room-description"></p>
+        <section class="form-section" aria-labelledby="room-equipment-heading"><h3 id="room-equipment-heading">Закреплённое оборудование</h3><div id="room-equipment" aria-live="polite"></div></section>
+        <div class="form-actions"><button type="button" class="accent" id="room-choose-time">Выбрать время ↗</button></div>
+      </div>
+    </dialog>
+    <dialog class="drawer" id="booking-dialog" aria-labelledby="booking-heading">
+      <div class="drawer-head"><div><p class="eyebrow">СОБИРАЕМ КОМАНДУ</p><h2 id="booking-heading">Новая встреча</h2></div><button type="button" class="secondary icon-button" id="cancel-selection" aria-label="Закрыть форму">✕</button></div>
+      <div class="drawer-body">
+        <p class="selection-summary" id="selection-summary"></p>
+        <p class="muted booking-location" id="booking-location"></p>
+        <div class="message" id="booking-message" hidden></div>
+        <form id="booking-form">
+          <div class="field"><label for="title">Как назовём встречу?</label><input type="text" id="title" maxlength="255" placeholder="Например, планирование спринта" required /></div>
+          <div class="grid-2">
+            <div><label for="starts-at">Начало</label><select id="starts-at" required></select></div>
+            <div><label for="ends-at">Окончание</label><select id="ends-at" required></select></div>
+          </div>
+          <div class="duration-options" aria-label="Длительность"><button type="button" class="secondary" data-duration="30">30 мин</button><button type="button" class="secondary" data-duration="60">1 час</button><button type="button" class="secondary" data-duration="90">1,5 часа</button></div>
+          <div class="form-section"><h3>Оборудование</h3><div class="checkbox-list" id="equipment" aria-live="polite"></div></div>
+          <div class="form-section">
+            <h3>Кого пригласим?</h3>
+            <label class="sr-only" for="participant-search">Найти участника</label><input type="search" id="participant-search" placeholder="Найти коллегу по имени или почте" autocomplete="off" />
+            <div class="checkbox-list" id="search-results" aria-live="polite"></div>
+            <div class="row" style="margin-top: 12px"><div><label class="sr-only" for="participant-email">Email гостя</label><input type="email" id="participant-email" placeholder="Почта гостя" /></div><button type="button" class="secondary" id="add-email" style="flex: 0 0 auto; min-width: 0">Добавить</button></div>
+            <div class="chip-list" id="participants"></div>
+          </div>
+          <details class="form-section"><summary>Описание и повторение</summary><div style="padding-top: 16px">
+            <div class="field"><label for="description">Что обсудим?</label><textarea id="description" rows="3" placeholder="Повестка, ссылки, детали…"></textarea></div>
+            <div class="field"><label for="frequency">Повторение</label><select id="frequency"><option value="">Одна встреча</option><option value="daily">Ежедневно</option><option value="weekly">Еженедельно</option></select></div>
+            <div class="grid-2" id="recurrence-options" hidden><div><label for="interval">Интервал (дни / недели)</label><input type="number" id="interval" min="1" max="12" value="1" /></div><div><label for="count">Всего встреч</label><input type="number" id="count" min="2" max="52" value="4" /></div></div>
+            <p class="muted" style="margin: 12px 0 0">Для повторов проверим доступность на каждую дату.</p>
+          </div></details>
+          <div class="form-actions"><button type="submit" class="accent" id="submit">Забронировать <span aria-hidden="true">↗</span></button></div>
+          <p class="muted" style="font-size: 11px; margin: 12px 0 0">При подключённом Google Calendar встреча появится в календаре.</p>
+        </form>
+      </div>
+    </dialog>
+    <script type="module" src="/assets/js/pages/rooms.js"></script>
+  </body>
+</html>

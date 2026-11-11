@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Админ панель — Slotify</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/css/app.css" />
+  </head>
+  <body class="admin-page">
+    <nav data-nav aria-label="Основная навигация"></nav>
+
+    <main>
+      <header class="page-header"><div><p class="eyebrow">ПОРЯДОК В ДЕТАЛЯХ</p><h1>Пространство под контролем.</h1><p class="muted">Офисы, комнаты, оборудование и доступ команды.</p></div></header>
+      <div class="message" id="message" hidden></div>
+
+      <div class="tabs" role="group" aria-label="Разделы управления">
+        <button type="button" data-tab="offices" class="active">Офисы</button>
+        <button type="button" data-tab="rooms">Комнаты</button>
+        <button type="button" data-tab="equipment">Оборудование</button>
+        <button type="button" data-tab="users">Пользователи</button>
+      </div>
+
+      <!-- OFFICES -->
+      <section data-panel="offices">
+        <div class="card">
+          <h2>Новый офис</h2>
+          <form id="office-form">
+            <div class="row">
+              <div><label for="o-name">Название</label><input id="o-name" required /></div>
+              <div><label for="o-city">Город</label><input id="o-city" required /></div>
+              <div>
+                <label for="o-tz">Часовой пояс</label>
+                <input id="o-tz" value="Europe/Moscow" placeholder="Город, например Москва" required />
+              </div>
+            </div>
+            <div class="field" style="margin-top: 12px"><label for="o-address">Адрес офиса</label><input id="o-address" maxlength="512" placeholder="Улица, дом, корпус, вход" /></div>
+            <div class="row" style="margin-top: 12px">
+              <div><label for="o-opens">Открытие</label><input type="time" id="o-opens" value="09:00" /></div>
+              <div><label for="o-closes">Закрытие</label><input type="time" id="o-closes" value="20:00" /></div>
+              <div><label for="o-slot">Слот, мин</label><input type="number" id="o-slot" value="30" min="5" /></div>
+              <div><label for="o-min">Мин. бронь</label><input type="number" id="o-min" value="30" min="5" /></div>
+              <div><label for="o-max">Макс. бронь</label><input type="number" id="o-max" value="480" min="5" /></div>
+              <div>
+                <label for="o-horizon">Горизонт, дней</label>
+                <input type="number" id="o-horizon" value="90" min="1" />
+              </div>
+            </div>
+            <div style="margin-top: 12px">
+              <label>Рабочие дни</label>
+              <div class="slot-row" id="o-workdays"></div>
+            </div>
+            <div style="margin-top: 16px"><button type="submit">Создать офис</button></div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Офисы</h2>
+          <div class="grid-scroll"><table id="offices-table"></table></div>
+        </div>
+      </section>
+
+      <!-- ROOMS -->
+      <section data-panel="rooms" hidden>
+        <div class="card">
+          <h2>Новая комната</h2>
+          <form id="room-form">
+            <div class="row">
+              <div><label for="r-office">Офис</label><select id="r-office" required></select></div>
+              <div><label for="r-name">Название</label><input id="r-name" required /></div>
+              <div>
+                <label for="r-capacity">Мест</label>
+                <input type="number" id="r-capacity" value="6" min="1" />
+              </div>
+              <div><label for="r-floor">Этаж</label><input id="r-floor" /></div>
+            </div>
+            <div style="margin-top: 12px">
+              <label for="r-description">Описание и ориентиры</label><textarea id="r-description" rows="3" placeholder="Номер кабинета, корпус, как пройти от входа и особенности комнаты"></textarea>
+            </div>
+            <div style="margin-top: 16px"><button type="submit">Создать комнату</button></div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Комнаты</h2>
+          <div class="row" style="margin-bottom: 14px">
+            <div><label for="rooms-filter">Офис</label><select id="rooms-filter"></select></div>
+          </div>
+          <div class="grid-scroll"><table id="rooms-table"></table></div>
+        </div>
+      </section>
+
+      <!-- EQUIPMENT -->
+      <section data-panel="equipment" hidden>
+        <div class="card">
+          <h2>Новое оборудование</h2>
+          <form id="equipment-form">
+            <div class="row">
+              <div><label for="e-office">Офис</label><select id="e-office" required></select></div>
+              <div><label for="e-name">Название</label><input id="e-name" required /></div>
+              <div>
+                <label for="e-type">Тип</label>
+                <select id="e-type"></select>
+              </div>
+              <div><label for="e-inventory">Инв. номер</label><input id="e-inventory" /></div>
+            </div>
+            <div class="row" style="margin-top: 12px">
+              <div><label for="e-room">Закреплено за комнатой</label><select id="e-room"></select></div>
+              <div>
+                <label for="e-movable">Переносное</label>
+                <select id="e-movable">
+                  <option value="true">Да — можно брать в любую комнату</option>
+                  <option value="false">Нет — только своя комната</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-top: 16px"><button type="submit">Создать</button></div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Оборудование</h2>
+          <div class="row" style="margin-bottom: 14px">
+            <div><label for="equipment-filter">Офис</label><select id="equipment-filter"></select></div>
+          </div>
+          <div class="grid-scroll"><table id="equipment-table"></table></div>
+        </div>
+      </section>
+
+      <!-- USERS -->
+      <section data-panel="users" hidden>
+        <div class="card">
+          <h2>Пользователи</h2>
+          <div class="row" style="margin-bottom: 14px">
+            <div><label for="u-search">Найти пользователя</label><input type="search" id="u-search" placeholder="Имя или email" maxlength="320" autocomplete="off" /></div>
+            <div>
+              <label for="u-status">Статус</label>
+              <select id="u-status">
+                <option value="">Любой</option>
+                <option value="active">Активные</option>
+                <option value="invited">Приглашённые</option>
+                <option value="disabled">Отключённые</option>
+              </select>
+            </div>
+            <div>
+              <label for="u-role">Роль</label>
+              <select id="u-role">
+                <option value="">Любая</option>
+                <option value="user">Пользователь</option>
+                <option value="admin">Администратор</option>
+              </select>
+            </div>
+            <div><label for="u-limit">На странице</label><select id="u-limit"><option value="10">10</option><option value="20" selected>20</option><option value="50">50</option></select></div>
+          </div>
+          <div class="grid-scroll"><table id="users-table"></table></div>
+          <div class="pagination"><span class="muted" id="users-summary" role="status"></span><div class="pagination-actions"><button type="button" class="secondary" id="users-prev">← Назад</button><span class="muted" id="users-page"></span><button type="button" class="secondary" id="users-next">Вперёд →</button></div></div>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="drawer record-editor" id="record-editor" aria-labelledby="record-title">
+      <div class="drawer-head"><div><p class="eyebrow">УПРАВЛЕНИЕ</p><h2 id="record-title">Редактирование</h2><p class="muted" id="record-caption"></p></div><button type="button" class="secondary icon-button" id="record-close" data-close-editor aria-label="Закрыть">✕</button></div>
+      <div class="drawer-body"><div class="message" id="record-message" hidden></div><form id="record-form"><div id="record-fields"></div><div class="form-actions"><button type="submit" class="accent">Сохранить изменения</button><button type="button" class="secondary" data-close-editor>Отмена</button></div></form></div>
+    </dialog>
+
+    <script type="module" src="/assets/js/pages/admin.js"></script>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f0f1e9" />
+    <title>Мои встречи — Slotify</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/css/app.css" />
+  </head>
+  <body>
+    <nav data-nav aria-label="Основная навигация"></nav>
+    <main>
+      <header class="page-header"><div><p class="eyebrow">ВСЁ ПО ПЛАНУ</p><h1>Время встретиться.</h1><p class="muted">Ваши встречи, приглашения и планы на день.</p></div></header>
+      <div class="message" id="message" hidden></div>
+      <div class="bookings-layout">
+        <section class="card" aria-labelledby="list-heading">
+          <div class="section-heading"><h2 id="list-heading">Мои встречи <span class="count-label" id="booking-count"></span></h2><button type="button" class="secondary icon-button" id="reload" aria-label="Обновить встречи">↻</button></div>
+          <div class="tabs" role="group" aria-label="Показать встречи"><button type="button" class="active" data-view="upcoming" aria-pressed="true">Предстоящие</button><button type="button" data-view="invitations" aria-pressed="false">Приглашения <span id="invitation-count"></span></button><button type="button" data-view="past" aria-pressed="false">Прошедшие</button></div>
+          <label style="display: flex; align-items: center; gap: 8px; color: var(--muted); font-weight: 400"><input type="checkbox" id="include-cancelled" />Показывать отменённые</label>
+          <div id="bookings" aria-live="polite"></div>
+        </section>
+        <aside class="card profile-card" aria-labelledby="profile-heading">
+          <span class="avatar" id="profile-avatar" aria-hidden="true"></span>
+          <h2 id="profile-heading">Ваш профиль</h2><p class="muted" id="profile-email"></p>
+          <form id="profile-form"><div class="field"><label for="fullName">Как к вам обращаться</label><input type="text" id="fullName" maxlength="255" autocomplete="name" /></div><div class="field"><label for="office">Ваш офис</label><select id="office"></select></div><p class="profile-save-status" id="profile-save-status" role="status" aria-live="polite">Изменения сохраняются автоматически.</p><button type="button" class="link" id="retry-profile" style="margin-top: 8px" hidden>Повторить сохранение</button></form>
+          <hr /><h3 style="font-size: 13px">Google Calendar</h3><p class="muted" id="calendar-status"></p>
+        </aside>
+      </div>
+    </main>
+    <script type="module" src="/assets/js/pages/my-bookings.js"></script>
+  </body>
+</html>

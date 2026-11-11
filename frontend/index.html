@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f7f2" />
+    <meta name="description" content="Slotify — переговорные, оборудование и приглашения команде в одном месте. Найдите свободное время и забронируйте встречу." />
+    <title>Slotify — место для вашей следующей встречи</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/css/app.css" />
+    <link rel="stylesheet" href="/assets/css/landing.css" />
+  </head>
+  <body class="landing-page">
+    <header class="landing-nav">
+      <a class="brand" href="/" aria-label="Slotify — главная"><img class="brand-mark" src="/assets/favicon.svg" alt="" width="28" height="28" />slotify</a>
+      <a class="landing-nav-link" href="#how-it-works">Как это работает</a>
+      <div class="landing-nav-actions"><a class="button secondary" href="/login.html" data-login>Войти</a><a class="button accent" href="/register.html" data-start>Начать работу ↗</a></div>
+    </header>
+    <main class="landing-main">
+      <section class="landing-hero" aria-labelledby="hero-title">
+        <div class="hero-copy"><p class="eyebrow">ПЕРЕГОВОРНЫЕ. ОБОРУДОВАНИЕ. КОМАНДА.</p><h1 id="hero-title">Встречи начинаются<br>с хорошего <em>места.</em></h1><p class="hero-description">Найдите свободную комнату, добавьте нужную технику и пригласите коллег. Все организационные детали — в одном месте.</p><div class="hero-actions"><a class="button accent" href="/register.html" data-start>Собрать команду <span aria-hidden="true">↗</span></a><a href="#how-it-works" class="text-action">Посмотреть, как это работает ↓</a></div><p class="hero-note">Встреча в офисе. Порядок в календаре.</p></div>
+        <div class="landing-demo" aria-label="Интерактивный пример бронирования">
+          <div class="demo-window-top"><span class="demo-dots" aria-hidden="true">● ● ●</span><span>ПРИМЕР РАСПИСАНИЯ</span><span aria-hidden="true">↗</span></div>
+          <div class="demo-content"><div class="demo-header"><div><span class="demo-today">ВАШ СЛЕДУЮЩИЙ ПЛАН</span><h2>Время для идеи.</h2></div><span class="demo-date">СР<br><strong>12</strong></span></div>
+            <div class="demo-timeline"><span>Переговорная</span><span>10:00</span><span>10:30</span><span>11:00</span><span>11:30</span></div>
+            <div class="demo-room"><div><strong>Нева</strong><small>до 4 человек</small></div><button type="button" class="demo-slot" data-demo-room="Нева" data-demo-time="10:00" aria-label="Нева, 10:00 — выбрать" aria-pressed="false"></button><button type="button" class="demo-slot busy" disabled aria-label="Нева, 10:30 — занято"></button><button type="button" class="demo-slot busy" disabled aria-label="Нева, 11:00 — занято"></button><button type="button" class="demo-slot" data-demo-room="Нева" data-demo-time="11:30" aria-label="Нева, 11:30 — выбрать" aria-pressed="false"></button></div>
+            <div class="demo-room"><div><strong>Волга</strong><small>до 8 человек</small></div><button type="button" class="demo-slot busy" disabled aria-label="Волга, 10:00 — занято"></button><button type="button" class="demo-slot chosen" data-demo-room="Волга" data-demo-time="10:30" aria-label="Волга, 10:30 — выбрать" aria-pressed="true"></button><button type="button" class="demo-slot" data-demo-room="Волга" data-demo-time="11:00" aria-label="Волга, 11:00 — выбрать" aria-pressed="false"></button><button type="button" class="demo-slot" data-demo-room="Волга" data-demo-time="11:30" aria-label="Волга, 11:30 — выбрать" aria-pressed="false"></button></div>
+            <div class="demo-room"><div><strong>Ладога</strong><small>до 12 человек</small></div><button type="button" class="demo-slot" data-demo-room="Ладога" data-demo-time="10:00" aria-label="Ладога, 10:00 — выбрать" aria-pressed="false"></button><button type="button" class="demo-slot" data-demo-room="Ладога" data-demo-time="10:30" aria-label="Ладога, 10:30 — выбрать" aria-pressed="false"></button><button type="button" class="demo-slot" data-demo-room="Ладога" data-demo-time="11:00" aria-label="Ладога, 11:00 — выбрать" aria-pressed="false"></button><button type="button" class="demo-slot busy" disabled aria-label="Ладога, 11:30 — занято"></button></div>
+            <div class="demo-selection"><span class="demo-check" aria-hidden="true">✓</span><div><strong id="demo-selection" aria-live="polite">Волга · 10:30–11:00</strong><span>Проектор · вся команда в сборе</span></div><span class="demo-arrow" aria-hidden="true">↗</span></div>
+            <p class="demo-hint">Нажмите на свободное время — попробуйте сами.</p>
+          </div>
+          <span class="demo-sticker" aria-hidden="true">Есть<br>контакт.</span>
+        </div>
+      </section>
+      <section class="landing-flow" id="how-it-works" aria-labelledby="flow-title">
+        <div class="flow-heading"><p class="eyebrow">БЕЗ ПЕРЕПИСКИ «А КОМНАТА СВОБОДНА?»</p><h2 id="flow-title">Три детали. Одна встреча.</h2></div>
+        <div class="flow-steps"><article><span class="step-number">01 / МЕСТО</span><h3>Видно, где свободно.</h3><p>Общее расписание переговорных, выбор офиса и комнаты по вместимости. Свободное время видно сразу.</p></article><article><span class="step-number">02 / ТЕХНИКА</span><h3>Всё нужное под рукой.</h3><p>Добавьте проектор, доску или другую технику. Покажем оборудование, доступное на выбранное время.</p></article><article><span class="step-number">03 / ЛЮДИ</span><h3>Команда в курсе.</h3><p>Пригласите коллег и гостей по почте. Подключите Google Calendar, чтобы встречи появлялись в календаре.</p></article></div>
+      </section>
+      <section class="landing-cta" aria-label="Начать пользоваться Slotify"><div><p class="eyebrow">ОСТАЛОСЬ СОБРАТЬСЯ</p><h2>Для следующей идеи<br>уже есть место.</h2></div><div><a class="button accent" href="/register.html" data-start>Создать аккаунт ↗</a><p><a href="/login.html" data-login>Уже с нами? Войти</a></p></div></section>
+    </main>
+    <script type="module" src="/assets/js/pages/landing.js"></script>
+  </body>
+</html>
